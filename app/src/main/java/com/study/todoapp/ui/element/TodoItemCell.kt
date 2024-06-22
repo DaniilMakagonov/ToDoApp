@@ -1,0 +1,80 @@
+package com.study.todoapp.ui.element
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.study.todoapp.data.Importance
+import com.study.todoapp.data.TodoItem
+import java.time.LocalDate
+
+@Composable
+fun TodoItemCell(todoItem: TodoItem) {
+    val itemReady = remember { mutableStateOf(todoItem.isReady) }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = itemReady.value,
+            onCheckedChange = {
+                itemReady.value = it
+                todoItem.isReady = it
+                              },
+            modifier = Modifier.padding(10.dp)
+        )
+        Text(
+            text = todoItem.text,
+            textDecoration = if (itemReady.value) TextDecoration.None else TextDecoration.LineThrough,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(vertical = 2.dp)
+        )
+    }
+}
+
+
+
+@Preview
+@Composable
+fun TodoItemCellPreview() {
+//    with default theme
+    val todoItem = TodoItem(
+        id = "0",
+        text = "Очень важное дело, необходимость которого очень трудно переоценить. " +
+                "Именно поэтому каждое слово, написанное здесь, невероятно ценно. " +
+                "Спасибо, что мне хватило фантазии на это все.",
+        importance = Importance.Low,
+        isReady = true,
+        creationDate = LocalDate.now()
+    )
+    TodoItemCell(todoItem = todoItem)
+
+//    with custom theme
+//    ToDoAppTheme{
+//        val todoItem = TodoItem(
+//            id = "0",
+//            text = "Очень важное дело, необходимость которого очень трудно переоценить. " +
+//                    "Именно поэтому каждое слово, написанное здесь, невероятно ценно. " +
+//                    "Спасибо, что мне хватило фантазии на это все.",
+//            importance = Importance.Low,
+//            isReady = true,
+//            creationDate = LocalDate.now()
+//        )
+//        TodoItemCell(todoItem = todoItem)
+//    }
+}
