@@ -34,7 +34,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun TodoItemCell(todoItem: TodoItem) {
+fun TodoItemCell(todoItem: TodoItem, onCheckboxChange: () -> Unit) {
     val itemReady = remember { mutableStateOf(todoItem.isReady) }
     Row(
         modifier = Modifier
@@ -49,6 +49,7 @@ fun TodoItemCell(todoItem: TodoItem) {
             onCheckedChange = {
                 itemReady.value = it
                 todoItem.isReady = it
+                onCheckboxChange()
             },
             colors = if (todoItem.importance == Importance.High)
                 CheckboxDefaults.colors(uncheckedColor = Color.Red, checkedColor = Color.Green)
@@ -111,7 +112,7 @@ fun TodoItemCellPreview() {
         creationDate = LocalDate.now(),
         deadline = LocalDate.now().plusDays(7L)
     )
-    TodoItemCell(todoItem = todoItem)
+    TodoItemCell(todoItem = todoItem, onCheckboxChange = {})
 
 //    with custom theme
 //    ToDoAppTheme{
