@@ -48,7 +48,8 @@ fun TodoItemsList(todoItemsRepository: TodoItemsRepository) {
             AppBar(scrollBehavior = scrollBehavior, doneAmount = doneAmount, isVisible = isVisible) {
                 isVisible = !isVisible
             }
-        }
+        },
+        floatingActionButton = { NewItemButton() }
     ) {
 
         LazyColumn(
