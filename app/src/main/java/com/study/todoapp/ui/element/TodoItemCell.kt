@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -79,7 +80,7 @@ fun TodoItemCell(todoItem: TodoItem, onCheckboxChange: () -> Unit) {
             if (!itemReady.value && todoItem.deadline != null) {
                 Text(
                     text = "Сделать до: ${todoItem.deadline!!
-                        .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}",
+                        .format(DateTimeFormatter.ofPattern(stringResource(id = R.string.date_format)))}",
                     color = Color.Gray,
                     modifier = Modifier.padding(bottom = 3.dp)
                 )
