@@ -18,15 +18,22 @@ import com.study.todoapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(scrollBehavior: TopAppBarScrollBehavior, doneAmount: Int, isVisible: Boolean, onChangeVisibility: () -> Unit) {
+fun AppBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    doneAmount: Int,
+    isVisible: Boolean,
+    onChangeVisibility: () -> Unit
+) {
     LargeTopAppBar(
         title = {
             if (scrollBehavior.state.collapsedFraction < .7) {
                 Column {
                     Text(text = "Мои дела")
 
-                    Row (horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Text(text = "Выполнено - $doneAmount")
                         IconButton(onClick = onChangeVisibility) {
                             Icon(
@@ -36,15 +43,14 @@ fun AppBar(scrollBehavior: TopAppBarScrollBehavior, doneAmount: Int, isVisible: 
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 Column {
                     Text(text = "Мои дела")
                 }
             }
         },
-        actions =  {
-            if (scrollBehavior.state.collapsedFraction > .7){
+        actions = {
+            if (scrollBehavior.state.collapsedFraction > .7) {
                 IconButton(onClick = onChangeVisibility) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = if (isVisible) R.drawable.visible else R.drawable.invisible),

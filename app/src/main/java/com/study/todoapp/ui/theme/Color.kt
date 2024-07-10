@@ -1,6 +1,5 @@
 package com.study.todoapp.ui.theme
 
-import androidx.compose.material3.CheckboxColors
 import androidx.compose.ui.graphics.Color
 
 val LightSupportSeparator = Color(0x33000000)

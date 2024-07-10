@@ -191,5 +191,5 @@ class TodoItemsRepository {
 
     fun addTodoItem(todoItem: TodoItem) = todoItemsList.add(todoItem)
 
-    fun getAllTodoItems() : List<TodoItem> = todoItemsList.toList()
+    fun getAllTodoItems(): List<TodoItem> = todoItemsList.toList()
 }

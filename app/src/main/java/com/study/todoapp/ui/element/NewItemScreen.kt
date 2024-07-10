@@ -30,7 +30,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -84,7 +83,7 @@ fun NewItemScreen(item: TodoItem? = null) {
                                     item.importance = importance
                                     item.deadline = deadline
                                 }
-                            /*TODO*/
+                                /*TODO*/
                             }
                     )
                 }
@@ -210,7 +209,9 @@ fun DateChoose(deadline: LocalDate?) {
         mutableStateOf(deadline ?: LocalDate.now())
     }
 
-    val datePickerState = rememberDatePickerState(pickedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
+    val datePickerState = rememberDatePickerState(
+        pickedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    )
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -245,7 +246,8 @@ fun DateChoose(deadline: LocalDate?) {
                     onClick = {
                         isDialogOpen = false
                         isDateSet = true
-                        pickedDate = toLocalDateFromEpochMillis(datePickerState.selectedDateMillis!!)
+                        pickedDate =
+                            toLocalDateFromEpochMillis(datePickerState.selectedDateMillis!!)
                     }
                 ) {
                     Text(text = "Сохранить")
@@ -294,6 +296,6 @@ fun NewItemScreenResource() {
     NewItemScreen()
 }
 
-fun toLocalDateFromEpochMillis(millis: Long) : LocalDate {
+fun toLocalDateFromEpochMillis(millis: Long): LocalDate {
     return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
 }

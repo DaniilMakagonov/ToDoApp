@@ -17,9 +17,9 @@ fun NewItemButton() {
         onClick = { /*TODO*/ },
         modifier = Modifier.clip(CircleShape)
     ) {
-       Icon(
-           imageVector = Icons.Filled.Add,
-           contentDescription = null
-           )
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = null
+        )
     }
 }

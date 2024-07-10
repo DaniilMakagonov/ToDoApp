@@ -79,8 +79,10 @@ fun TodoItemCell(todoItem: TodoItem, onCheckboxChange: () -> Unit) {
 
             if (!itemReady.value && todoItem.deadline != null) {
                 Text(
-                    text = "Сделать до: ${todoItem.deadline!!
-                        .format(DateTimeFormatter.ofPattern(stringResource(id = R.string.date_format)))}",
+                    text = "Сделать до: ${
+                        todoItem.deadline!!
+                            .format(DateTimeFormatter.ofPattern(stringResource(id = R.string.date_format)))
+                    }",
                     color = Color.Gray,
                     modifier = Modifier.padding(bottom = 3.dp)
                 )
