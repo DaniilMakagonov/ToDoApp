@@ -7,9 +7,10 @@ class TodoItemsRepository {
         TodoItem(
             id = "0",
             text = "Очень оригинальный текст 0",
-            importance = Importance.Normal,
+            importance = Importance.High,
             isReady = false,
-            creationDate = LocalDate.now()
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(5)
         ),
         TodoItem(
             id = "1",
