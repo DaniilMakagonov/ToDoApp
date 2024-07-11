@@ -8,13 +8,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.study.todoapp.navigation.Screen
 
 @Composable
-@Preview
-fun NewItemButton() {
+fun NewItemButton(navController: NavController) {
     FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = {
+            navController.navigate(Screen.NewItem.route)
+        },
         modifier = Modifier.clip(CircleShape)
     ) {
         Icon(

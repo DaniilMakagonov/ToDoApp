@@ -4,16 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.study.todoapp.data.TodoItemsRepository
-import com.study.todoapp.ui.element.NewItemScreen
-import com.study.todoapp.ui.element.TodoItemsList
+import com.study.todoapp.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NewItemScreen(TodoItemsRepository().getAllTodoItems()[0])
+            Navigation()
         }
     }
 }

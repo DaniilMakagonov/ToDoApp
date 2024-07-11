@@ -1,5 +1,6 @@
 package com.study.todoapp.ui.element
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,12 +38,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.study.todoapp.R
 import com.study.todoapp.data.Importance
 import com.study.todoapp.data.TodoItem
+import com.study.todoapp.data.TodoItemsRepository
+import com.study.todoapp.navigation.Screen
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -50,14 +53,18 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewItemScreen(item: TodoItem? = null) {
-    var id: String
-    var text by remember { mutableStateOf(item?.text ?: "") }
-    var importance = item?.importance ?: Importance.Normal
-    var isReady = item?.isReady ?: false
-    var creationDate = item?.creationDate ?: LocalDate.now()
-    var deadline = item?.deadline
-    var lastChangeDate = LocalDate.now()
+fun NewItemScreen(repository: TodoItemsRepository, id: String?, navController: NavController) {
+    Log.d("My_tag", "Start drawing new item page with id value $id")
+    val newItem = (id == null || repository.getAll().none { it.id == id })
+    val item = if (!newItem) repository.getItem(id!!) else TodoItem(
+        id = repository.getEmptyId(),
+        importance = Importance.Normal,
+        text = "",
+        isReady = false,
+        creationDate = LocalDate.now()
+    )
+    var text by remember { mutableStateOf(item.text) }
+    item.lastChangeDate = LocalDate.now()
 
     Scaffold(
         containerColor = Color(0xFFF7F6F2),
@@ -66,7 +73,15 @@ fun NewItemScreen(item: TodoItem? = null) {
                 title = {},
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFF7F6F2)),
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(Screen.MainScreen.route) {
+                                popUpTo(Screen.MainScreen.route) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                    ) {
                         Icon(imageVector = Icons.Filled.Close, contentDescription = null)
                     }
                 },
@@ -78,12 +93,16 @@ fun NewItemScreen(item: TodoItem? = null) {
                         modifier = Modifier
                             .padding(end = 20.dp)
                             .clickable {
-                                if (item != null) {
-                                    item.text = text
-                                    item.importance = importance
-                                    item.deadline = deadline
+                                item.text = text
+                                if (newItem)
+                                    repository.addItem(item)
+                                else
+                                    repository.updateItem(item)
+                                navController.navigate(Screen.MainScreen.route) {
+                                    popUpTo(Screen.MainScreen.route) {
+                                        inclusive = true
+                                    }
                                 }
-                                /*TODO*/
                             }
                     )
                 }
@@ -101,21 +120,30 @@ fun NewItemScreen(item: TodoItem? = null) {
                 InputField(text = text) { inputValue -> text = inputValue }
             }
             item {
-                ImportanceChoose(importance.name) { newImportance ->
-                    importance = newImportance
+                ImportanceChoose(item.importance.name) { newImportance ->
+                    item.importance = newImportance
                 }
             }
             item {
                 Divider()
             }
             item {
-                DateChoose(deadline)
+                DateChoose(item.deadline) { newDeadline ->
+                    item.deadline = newDeadline
+                }
             }
             item {
                 Divider()
             }
             item {
-                DeleteIcon(item != null)
+                DeleteIcon(!newItem) {
+                    navController.navigate(Screen.MainScreen.route) {
+                        popUpTo(Screen.MainScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                    repository.deleteItem(item.id)
+                }
             }
         }
     }
@@ -174,7 +202,7 @@ fun ImportanceChoose(importance: String, onImportanceChange: (Importance) -> Uni
             DropdownMenuItem(
                 text = { Text(text = Importance.Normal.name) },
                 onClick = {
-                    onImportanceChange(Importance.Low)
+                    onImportanceChange(Importance.Normal)
                     expanded = false
                     currentImportance = Importance.Normal.name
                 }
@@ -186,7 +214,7 @@ fun ImportanceChoose(importance: String, onImportanceChange: (Importance) -> Uni
                     )
                 },
                 onClick = {
-                    onImportanceChange(Importance.Low)
+                    onImportanceChange(Importance.High)
                     expanded = false
                     currentImportance = Importance.High.name
                 }
@@ -198,7 +226,7 @@ fun ImportanceChoose(importance: String, onImportanceChange: (Importance) -> Uni
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateChoose(deadline: LocalDate?) {
+fun DateChoose(deadline: LocalDate?, onDeadLineChange: (LocalDate?) -> Unit) {
     var isDateSet by remember {
         mutableStateOf(deadline != null)
     }
@@ -231,8 +259,10 @@ fun DateChoose(deadline: LocalDate?) {
             onCheckedChange = {
                 if (!isDateSet)
                     isDialogOpen = true
-                else
+                else {
                     isDateSet = false
+                    onDeadLineChange(null)
+                }
             }
         )
     }
@@ -248,6 +278,7 @@ fun DateChoose(deadline: LocalDate?) {
                         isDateSet = true
                         pickedDate =
                             toLocalDateFromEpochMillis(datePickerState.selectedDateMillis!!)
+                        onDeadLineChange(pickedDate)
                     }
                 ) {
                     Text(text = "Сохранить")
@@ -257,6 +288,7 @@ fun DateChoose(deadline: LocalDate?) {
                 TextButton(onClick = {
                     isDialogOpen = false
                     isDateSet = false
+                    onDeadLineChange(null)
                 }) {
                     Text(text = "Отмена")
                 }
@@ -270,12 +302,15 @@ fun DateChoose(deadline: LocalDate?) {
             )
         }
     }
-
 }
 
 @Composable
-fun DeleteIcon(enabled: Boolean) {
-    Row(modifier = Modifier.clickable(enabled = enabled) { /*TODO*/ }) {
+fun DeleteIcon(enabled: Boolean, deleteAction: () -> Unit) {
+    Row(
+        modifier = Modifier.clickable(enabled = enabled) {
+            deleteAction()
+        }
+    ) {
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = null,
@@ -288,12 +323,6 @@ fun DeleteIcon(enabled: Boolean) {
             modifier = Modifier.padding(start = 5.dp)
         )
     }
-}
-
-@Composable
-@Preview
-fun NewItemScreenResource() {
-    NewItemScreen()
 }
 
 fun toLocalDateFromEpochMillis(millis: Long): LocalDate {

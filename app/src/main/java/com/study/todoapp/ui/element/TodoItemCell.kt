@@ -28,14 +28,17 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.study.todoapp.R
 import com.study.todoapp.data.Importance
 import com.study.todoapp.data.TodoItem
+import com.study.todoapp.navigation.Screen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun TodoItemCell(todoItem: TodoItem, onCheckboxChange: () -> Unit) {
+fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxChange: () -> Unit) {
     val itemReady = remember { mutableStateOf(todoItem.isReady) }
     Row(
         modifier = Modifier
@@ -90,7 +93,9 @@ fun TodoItemCell(todoItem: TodoItem, onCheckboxChange: () -> Unit) {
         }
 
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(Screen.NewItem.withArgs(todoItem.id))
+            },
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.info),
@@ -115,7 +120,10 @@ fun TodoItemCellPreview() {
         creationDate = LocalDate.now(),
         deadline = LocalDate.now().plusDays(7L)
     )
-    TodoItemCell(todoItem = todoItem, onCheckboxChange = {})
+    TodoItemCell(
+        todoItem = todoItem,
+        navController = rememberNavController(),
+        onCheckboxChange = {})
 
 //    with custom theme
 //    ToDoAppTheme{
