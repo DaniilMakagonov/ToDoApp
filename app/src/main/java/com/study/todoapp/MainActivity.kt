@@ -4,16 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.study.todoapp.data.TodoItemsRepository
-import com.study.todoapp.ui.element.TodoItemsList
+import com.study.todoapp.navigation.Navigation
+import com.study.todoapp.ui.theme.ToDoAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val repository = TodoItemsRepository()
-            TodoItemsList(todoItemsRepository = repository)
+            Navigation()
         }
     }
 }

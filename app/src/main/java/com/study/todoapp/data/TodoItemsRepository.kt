@@ -2,193 +2,147 @@ package com.study.todoapp.data
 
 import java.time.LocalDate
 
-class TodoItemsRepository {
-    private val todoItemsList = mutableListOf<TodoItem>(
-        TodoItem(
+class TodoItemsRepository : RepoInterface {
+    private var emptyId = 10UL
+    private val todoItemsList = mutableMapOf(
+        "0" to TodoItem(
             id = "0",
             text = "Очень оригинальный текст 0",
-            importance = Importance.Normal,
+            importance = Importance.High,
             isReady = false,
-            creationDate = LocalDate.now()
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(5)
         ),
-        TodoItem(
+        "1" to TodoItem(
             id = "1",
             text = "Очень оригинальный текст 1",
             importance = Importance.Normal,
             isReady = false,
             creationDate = LocalDate.now()
         ),
-        TodoItem(
+        "2" to TodoItem(
             id = "2",
             text = "Очень оригинальный текст 2",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
+            importance = Importance.Low,
+            isReady = true,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(3)
         ),
-        TodoItem(
+        "3" to TodoItem(
             id = "3",
-            text = "Очень оригинальный текст 3",
+            text = "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
             importance = Importance.Normal,
-            isReady = false,
+            isReady = true,
             creationDate = LocalDate.now()
         ),
-        TodoItem(
+        "4" to TodoItem(
             id = "4",
-            text = "Очень оригинальный текст 4",
-            importance = Importance.Normal,
+            text = "Очень оригинальный текст 4" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.High,
             isReady = false,
             creationDate = LocalDate.now()
         ),
-        TodoItem(
+        "5" to TodoItem(
             id = "5",
             text = "Очень оригинальный текст 5",
-            importance = Importance.Normal,
+            importance = Importance.Low,
             isReady = false,
-            creationDate = LocalDate.now()
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(50)
         ),
-        TodoItem(
+        "6" to TodoItem(
             id = "6",
             text = "Очень оригинальный текст 6",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
+            importance = Importance.Low,
+            isReady = true,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(10)
         ),
-        TodoItem(
+        "7" to TodoItem(
             id = "7",
-            text = "Очень оригинальный текст 7",
-            importance = Importance.Normal,
+            text = "Очень оригинальный текст 7" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.High,
             isReady = false,
             creationDate = LocalDate.now()
         ),
-        TodoItem(
+        "8" to TodoItem(
             id = "8",
-            text = "Очень оригинальный текст 8",
-            importance = Importance.Normal,
-            isReady = false,
+            text = "Очень оригинальный текст 8" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.Low,
+            isReady = true,
             creationDate = LocalDate.now()
         ),
-        TodoItem(
+        "9" to TodoItem(
             id = "9",
-            text = "Очень оригинальный текст 9",
+            text = "Очень оригинальный текст 1",
             importance = Importance.Normal,
             isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "10",
-            text = "Очень оригинальный текст 10",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "11",
-            text = "Очень оригинальный текст 11",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "12",
-            text = "Очень оригинальный текст 12",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "13",
-            text = "Очень оригинальный текст 13",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "14",
-            text = "Очень оригинальный текст 14",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "15",
-            text = "Очень оригинальный текст 15",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "16",
-            text = "Очень оригинальный текст 16",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "17",
-            text = "Очень оригинальный текст 17",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "18",
-            text = "Очень оригинальный текст 18",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "19",
-            text = "Очень оригинальный текст 19",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "20",
-            text = "Очень оригинальный текст 20",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "21",
-            text = "Очень оригинальный текст 21",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "22",
-            text = "Очень оригинальный текст 22",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "23",
-            text = "Очень оригинальный текст 23",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "24",
-            text = "Очень оригинальный текст 24",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
-        ),
-        TodoItem(
-            id = "25",
-            text = "Очень оригинальный текст 25",
-            importance = Importance.Normal,
-            isReady = false,
-            creationDate = LocalDate.now()
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(5)
         )
     )
 
-    fun addTodoItem(todoItem: TodoItem) = todoItemsList.add(todoItem)
+    override fun addItem(item: TodoItem) {
+        if (item.id.toULong() >= emptyId) {
+            todoItemsList[item.id] = item
+            emptyId = item.id.toULong() + 1UL
+        } else {
+            todoItemsList[emptyId.toString()] = TodoItem(
+                id = emptyId.toString(),
+                text = item.text,
+                importance = item.importance,
+                isReady = item.isReady,
+                creationDate = item.creationDate,
+                deadline = item.deadline,
+                lastChangeDate = item.lastChangeDate
+            )
+            ++emptyId
+        }
+    }
 
-    fun getAllTodoItems() : List<TodoItem> = todoItemsList.toList()
+    override fun updateItem(item: TodoItem) {
+        val updatedItem = getItem(item.id)
+        updatedItem.text = item.text
+        updatedItem.importance = item.importance
+        updatedItem.deadline = item.deadline
+        updatedItem.lastChangeDate = item.lastChangeDate
+    }
+
+    override fun getAll(): List<TodoItem> = todoItemsList.map { it.value.copy() }
+
+    override fun getItem(id: String): TodoItem {
+        return todoItemsList[id]!!.copy()
+    }
+
+    override fun deleteItem(id: String) {
+        todoItemsList.remove(id)
+    }
+
+    override fun getEmptyId() = emptyId.toString()
 }
