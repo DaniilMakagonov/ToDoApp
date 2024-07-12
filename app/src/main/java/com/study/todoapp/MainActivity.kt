@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.study.todoapp.navigation.Navigation
+import com.study.todoapp.ui.theme.ToDoAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

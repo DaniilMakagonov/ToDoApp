@@ -3,7 +3,7 @@ package com.study.todoapp.data
 import java.time.LocalDate
 
 class TodoItemsRepository : RepoInterface {
-    private var emptyId = 2UL
+    private var emptyId = 10UL
     private val todoItemsList = mutableMapOf(
         "0" to TodoItem(
             id = "0",
@@ -19,6 +19,92 @@ class TodoItemsRepository : RepoInterface {
             importance = Importance.Normal,
             isReady = false,
             creationDate = LocalDate.now()
+        ),
+        "2" to TodoItem(
+            id = "2",
+            text = "Очень оригинальный текст 2",
+            importance = Importance.Low,
+            isReady = true,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(3)
+        ),
+        "3" to TodoItem(
+            id = "3",
+            text = "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.Normal,
+            isReady = true,
+            creationDate = LocalDate.now()
+        ),
+        "4" to TodoItem(
+            id = "4",
+            text = "Очень оригинальный текст 4" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.High,
+            isReady = false,
+            creationDate = LocalDate.now()
+        ),
+        "5" to TodoItem(
+            id = "5",
+            text = "Очень оригинальный текст 5",
+            importance = Importance.Low,
+            isReady = false,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(50)
+        ),
+        "6" to TodoItem(
+            id = "6",
+            text = "Очень оригинальный текст 6",
+            importance = Importance.Low,
+            isReady = true,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(10)
+        ),
+        "7" to TodoItem(
+            id = "7",
+            text = "Очень оригинальный текст 7" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.High,
+            isReady = false,
+            creationDate = LocalDate.now()
+        ),
+        "8" to TodoItem(
+            id = "8",
+            text = "Очень оригинальный текст 8" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3" +
+                    "Очень оригинальный текст 3",
+            importance = Importance.Low,
+            isReady = true,
+            creationDate = LocalDate.now()
+        ),
+        "9" to TodoItem(
+            id = "9",
+            text = "Очень оригинальный текст 1",
+            importance = Importance.Normal,
+            isReady = false,
+            creationDate = LocalDate.now(),
+            deadline = LocalDate.now().plusDays(5)
         )
     )
 
