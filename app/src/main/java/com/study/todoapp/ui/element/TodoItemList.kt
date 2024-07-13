@@ -60,7 +60,10 @@ fun TodoItemsList(todoItemsRepository: TodoItemsRepository, navController: NavCo
                     TodoItemCell(
                         todoItem = list[ind],
                         navController = navController,
-                        onCheckboxChange = {
+                        onCheckboxChange = { todoItem, value ->
+                            todoItemsRepository.updateItem(
+                                todoItemsRepository.getItem(todoItem.id).copy(isReady = value)
+                            )
                             doneAmount =
                                 todoItemsRepository.getAll().count { item -> item.isReady }
                         })

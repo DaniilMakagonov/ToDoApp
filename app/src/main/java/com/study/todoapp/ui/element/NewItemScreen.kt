@@ -56,15 +56,14 @@ import java.time.format.DateTimeFormatter
 fun NewItemScreen(repository: TodoItemsRepository, id: String?, navController: NavController) {
     Log.d("My_tag", "Start drawing new item page with id value $id")
     val newItem = (id == null || repository.getAll().none { it.id == id })
-    val item = if (!newItem) repository.getItem(id!!) else TodoItem(
-        id = repository.getEmptyId(),
-        importance = Importance.Normal,
-        text = "",
-        isReady = false,
-        creationDate = LocalDate.now()
-    )
-    var text by remember { mutableStateOf(item.text) }
-    item.lastChangeDate = LocalDate.now()
+    val item = if (!newItem) repository.getItem(id!!) else null
+    var text by remember { mutableStateOf(item?.text ?: "") }
+    var importance by remember {
+        mutableStateOf(item?.importance ?: Importance.Normal)
+    }
+    var deadline by remember {
+        mutableStateOf(item?.deadline)
+    }
 
     Scaffold(
         containerColor = Color(0xFFF7F6F2),
@@ -93,11 +92,21 @@ fun NewItemScreen(repository: TodoItemsRepository, id: String?, navController: N
                         modifier = Modifier
                             .padding(end = 20.dp)
                             .clickable {
-                                item.text = text
                                 if (newItem)
-                                    repository.addItem(item)
+                                    repository.addItem(TodoItem(
+                                        id = repository.getEmptyId(),
+                                        text = text,
+                                        importance = importance,
+                                        isReady = false,
+                                        deadline = deadline
+                                    ))
                                 else
-                                    repository.updateItem(item)
+                                    repository.updateItem(item!!.copy(
+                                        text = text,
+                                        importance = importance,
+                                        deadline = deadline,
+                                        lastChangeDate = LocalDate.now()
+                                    ))
                                 navController.navigate(Screen.MainScreen.route) {
                                     popUpTo(Screen.MainScreen.route) {
                                         inclusive = true
@@ -120,16 +129,16 @@ fun NewItemScreen(repository: TodoItemsRepository, id: String?, navController: N
                 InputField(text = text) { inputValue -> text = inputValue }
             }
             item {
-                ImportanceChoose(item.importance.name) { newImportance ->
-                    item.importance = newImportance
+                ImportanceChoose(importance.name) { newImportance ->
+                    importance = newImportance
                 }
             }
             item {
                 Divider()
             }
             item {
-                DateChoose(item.deadline) { newDeadline ->
-                    item.deadline = newDeadline
+                DateChoose(deadline) { newDeadline ->
+                    deadline = newDeadline
                 }
             }
             item {
@@ -142,7 +151,7 @@ fun NewItemScreen(repository: TodoItemsRepository, id: String?, navController: N
                             inclusive = true
                         }
                     }
-                    repository.deleteItem(item.id)
+                    repository.deleteItem(item!!.id)
                 }
             }
         }
