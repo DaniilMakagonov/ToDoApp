@@ -59,7 +59,7 @@ fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxCha
             else CheckboxDefaults.colors(checkedColor = Color.Green)
         )
 
-        if (!todoItem.isReady && todoItem.importance != Importance.Normal) {
+        if (!itemReady.value && todoItem.importance != Importance.Normal) {
             Image(
                 painter = painterResource(id = todoItem.importance.imageID),
                 contentDescription = null,
