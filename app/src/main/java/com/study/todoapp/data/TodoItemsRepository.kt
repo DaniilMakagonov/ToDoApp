@@ -127,11 +127,7 @@ class TodoItemsRepository : RepoInterface {
     }
 
     override fun updateItem(item: TodoItem) {
-        val updatedItem = getItem(item.id)
-        updatedItem.text = item.text
-        updatedItem.importance = item.importance
-        updatedItem.deadline = item.deadline
-        updatedItem.lastChangeDate = item.lastChangeDate
+        todoItemsList[item.id] = item
     }
 
     override fun getAll(): List<TodoItem> = todoItemsList.map { it.value.copy() }

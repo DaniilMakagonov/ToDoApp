@@ -38,7 +38,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxChange: () -> Unit) {
+fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxChange: (TodoItem, Boolean) -> Unit) {
     val itemReady = remember { mutableStateOf(todoItem.isReady) }
     Row(
         modifier = Modifier
@@ -52,15 +52,14 @@ fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxCha
             checked = itemReady.value,
             onCheckedChange = {
                 itemReady.value = it
-                todoItem.isReady = it
-                onCheckboxChange()
+                onCheckboxChange(todoItem, it)
             },
             colors = if (todoItem.importance == Importance.High)
                 CheckboxDefaults.colors(uncheckedColor = Color.Red, checkedColor = Color.Green)
             else CheckboxDefaults.colors(checkedColor = Color.Green)
         )
 
-        if (!todoItem.isReady && todoItem.importance != Importance.Normal) {
+        if (!itemReady.value && todoItem.importance != Importance.Normal) {
             Image(
                 painter = painterResource(id = todoItem.importance.imageID),
                 contentDescription = null,
@@ -83,8 +82,7 @@ fun TodoItemCell(todoItem: TodoItem, navController: NavController, onCheckboxCha
             if (!itemReady.value && todoItem.deadline != null) {
                 Text(
                     text = "Сделать до: ${
-                        todoItem.deadline!!
-                            .format(DateTimeFormatter.ofPattern(stringResource(id = R.string.date_format)))
+                        todoItem.deadline.format(DateTimeFormatter.ofPattern(stringResource(id = R.string.date_format)))
                     }",
                     color = Color.Gray,
                     modifier = Modifier.padding(bottom = 3.dp)
@@ -123,7 +121,7 @@ fun TodoItemCellPreview() {
     TodoItemCell(
         todoItem = todoItem,
         navController = rememberNavController(),
-        onCheckboxChange = {})
+        onCheckboxChange = {_, _ ->})
 
 //    with custom theme
 //    ToDoAppTheme{
